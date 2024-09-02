@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Guessing Game</title>
-    <link rel="stylesheet" href="css/style.css">
-
+    <title>Random Joke Generator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container" id="gameContainer">
-        <h1>Number Guessing Game</h1>
-        <p>Guess a number between 1 and 100</p>
-        <input type="number" id="guessInput" min="1" max="100" />
-      
-        <div ontouchstart="">
-            <div class="button">
-              <a href="#" id="guessButton">Guess</a>
-            </div>
+    <div class="container">
+        <h1>Random Joke Generator</h1>
+        <div id="joke-container">
+            <p id="setup"></p>
+            <p id="punchline"></p>
         </div>
-
-        <p id="message"></p>
+        <button id="new-joke">Get Another Joke</button>
     </div>
     <script src="js/script.js"></script>
-
-    
 </body>
 </html>

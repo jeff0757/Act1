@@ -1,68 +1,22 @@
-let randomNumber = Math.floor(Math.random() * 100) + 1;
+document.addEventListener('DOMContentLoaded', () => {
+    const setupElement = document.getElementById('setup');
+    const punchlineElement = document.getElementById('punchline');
+    const button = document.getElementById('new-joke');
 
-console.log('Random Number:', randomNumber);
-
-const guessInput = document.getElementById('guessInput');
-const guessButton = document.getElementById('guessButton');
-const message = document.getElementById('message');
-const gameContainer = document.getElementById('gameContainer');
-
-let attempts = 0;
-let gameActive = true;
-
-const resetGame = () => {
-    randomNumber = Math.floor(Math.random() * 100) + 1;
-    
-    console.log('New Random Number:', randomNumber);
-    
-    attempts = 0;
-    
-    message.textContent = '';
-    guessInput.value = '';
-    
-    guessButton.disabled = false;
-    
-    gameContainer.classList.remove('success');
-};
-
-const checkGuess = () => {
-    if (!gameActive) {
-        resetGame();
-        gameActive = true;
+    function fetchJoke() {
+        fetch('https://official-joke-api.appspot.com/random_joke')
+            .then(response => response.json())
+            .then(data => {
+                setupElement.textContent = data.setup;
+                punchlineElement.textContent = data.punchline;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
-    const userGuess = Number(guessInput.value);
-    attempts++;
+    button.addEventListener('click', fetchJoke);
 
-    if (userGuess === randomNumber) {
-        message.textContent = `Congratulations! You guessed it right in ${attempts} attempt(s).`;
-        message.style.color = 'green';
-        guessButton.disabled = true; 
-        
-        gameContainer.classList.add('success');
-        
-        gameActive = false;
-    } else {
-        gameContainer.classList.add('shake');
-        
-        setTimeout(() => {
-            gameContainer.classList.remove('shake');
-        }, 500);
-
-        if (userGuess > randomNumber) {
-            message.textContent = 'Too high! Try again.';
-            message.style.color = 'red';
-        } else if (userGuess < randomNumber) {
-            message.textContent = 'Too low! Try again.';
-            message.style.color = 'red';
-        } else {
-            message.textContent = 'Please enter a valid number.';
-            message.style.color = 'red';
-        }
-    }
-
-    guessInput.value = ''; 
-    guessInput.focus();
-};
-
-guessButton.addEventListener('click', checkGuess);
+    // Fetch a joke when the page loads
+    fetchJoke();
+});
